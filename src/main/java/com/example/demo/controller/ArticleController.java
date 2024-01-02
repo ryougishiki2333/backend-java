@@ -2,7 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Article;
 import com.example.demo.repository.ArticleRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.Instant;
 import java.util.List;
@@ -31,8 +34,14 @@ public class ArticleController {
     }
 
     @PostMapping("/create")
-    public Article createArticle(@RequestBody Article newArticle) {
-        System.out.println(newArticle);
-        return articleRepository.save(newArticle);
+    public ResponseEntity<?> createArticle(@RequestBody Article newArticle) {
+        try {
+            System.out.println(newArticle);
+            Article savedArticle = articleRepository.save(newArticle);
+            return ResponseEntity.ok(savedArticle);
+        } catch (Exception e) {
+            System.out.println("Error occurred: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 }

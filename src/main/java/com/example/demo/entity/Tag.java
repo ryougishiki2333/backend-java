@@ -9,9 +9,6 @@ import java.util.Set;
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Tag {
-    public void setTimestamp(Instant timestamp) {
-        this.timestamp = timestamp;
-    }
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
@@ -28,16 +25,9 @@ public class Tag {
         return id;
     }
 
-    public Instant getTimestamp() {
-        return timestamp;
-    }
     public String getName() {
         return name;
     }
 
-    @PrePersist
-    public void prePersist() {
-        this.timestamp = Instant.now();
-    }
 
 }
