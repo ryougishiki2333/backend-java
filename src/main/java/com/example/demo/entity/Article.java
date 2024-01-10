@@ -1,5 +1,5 @@
 package com.example.demo.entity;
-
+import java.time.format.DateTimeFormatter;
 import com.example.demo.type.ArticleState;
 import jakarta.persistence.*;
 
@@ -40,6 +40,7 @@ public class Article {
     @PrePersist
     public void prePersist() {
         this.createdAt = Instant.now();
+        this.updatedAt = Instant.now();
     }
 
     @Override
@@ -79,5 +80,37 @@ public class Article {
         this.tags = tags;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public String getSynopsis() {
+        return synopsis;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+
+    public Long getCreatedAt() {
+        return createdAt != null ? createdAt.toEpochMilli() : null;
+    }
+
+    public Long getUpdatedAt() {
+        return updatedAt != null ? updatedAt.toEpochMilli() : null;
+    }
+
+    public ArticleState getArticleState() {
+        return articleState;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
 }
 

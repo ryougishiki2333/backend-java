@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.demo.entity.Article;
 import com.example.demo.repository.ArticleRepository;
 import org.springframework.http.HttpStatus;
@@ -34,11 +35,12 @@ public class ArticleController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createArticle(@RequestBody Article newArticle) {
+    public ResponseEntity<String> createArticle(@RequestBody Article newArticle) {
         try {
-            System.out.println(newArticle);
+            ObjectMapper objectMapper = new ObjectMapper();
             Article savedArticle = articleRepository.save(newArticle);
-            return ResponseEntity.ok(savedArticle);
+            String responseBody = objectMapper.writeValueAsString(savedArticle);
+            return ResponseEntity.ok(responseBody);
         } catch (Exception e) {
             System.out.println("Error occurred: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
