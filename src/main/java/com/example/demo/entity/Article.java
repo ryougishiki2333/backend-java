@@ -1,6 +1,5 @@
 package com.example.demo.entity;
-import java.time.format.DateTimeFormatter;
-import com.example.demo.type.ArticleState;
+import com.example.demo.enums.ArticleState;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -43,11 +42,6 @@ public class Article {
         this.updatedAt = Instant.now();
     }
 
-    @Override
-    public String toString() {
-        return "Article{" + "id=" + id + ", content='" + content + '\'' + ", synopsis='" + synopsis + '\'' + ", title='" + title + '\'' + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", articleState=" + articleState + ", tags=" + tags + '}';
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -72,8 +66,8 @@ public class Article {
         this.updatedAt = updatedAt;
     }
 
-    public void setArticleState(ArticleState articleState) {
-        this.articleState = articleState;
+    public void setArticleState(int state) {
+        this.articleState = ArticleState.fromState(state);
     }
 
     public void setTags(Set<Tag> tags) {
@@ -105,8 +99,8 @@ public class Article {
         return updatedAt != null ? updatedAt.toEpochMilli() : null;
     }
 
-    public ArticleState getArticleState() {
-        return articleState;
+    public int getArticleState() {
+        return articleState.getState();
     }
 
     public Set<Tag> getTags() {

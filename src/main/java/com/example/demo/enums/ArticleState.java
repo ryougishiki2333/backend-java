@@ -1,4 +1,4 @@
-package com.example.demo.type;
+package com.example.demo.enums;
 
 public enum ArticleState {
     DRAFT(0),

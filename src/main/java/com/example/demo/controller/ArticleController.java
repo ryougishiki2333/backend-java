@@ -46,4 +46,31 @@ public class ArticleController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+    @PostMapping("/update")
+    public ResponseEntity<String> updateArticle(@RequestBody Article updatedArticle) {
+        try {
+            if (articleRepository.existsById(updatedArticle.getId())) {
+                Article existingArticle = articleRepository.findById(updatedArticle.getId()).orElse(null);
+                if (existingArticle != null) {
+                    if (updatedArticle.getUpdatedAt() == null) {
+                        updatedArticle.setUpdatedAt(Instant.now());
+                    }
+                    Instant createdAt = Instant.ofEpochMilli(existingArticle.getCreatedAt());
+                    updatedArticle.setCreatedAt(createdAt);
+                    Article savedArticle = articleRepository.save(updatedArticle);
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    String responseBody = objectMapper.writeValueAsString(savedArticle);
+                    return ResponseEntity.ok(responseBody);
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Article not found");
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Article not found");
+            }
+        } catch (Exception e) {
+            System.out.println("Error occurred: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 }
