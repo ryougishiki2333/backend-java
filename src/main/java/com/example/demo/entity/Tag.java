@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -13,7 +15,7 @@ public class Tag {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String name;
 
     @Column
@@ -23,6 +25,7 @@ public class Tag {
     private Instant updatedAt;
 
     @ManyToMany(mappedBy = "tags")
+    @JsonBackReference
     private Set<Article> articles;
     @PrePersist
     public void prePersist() {

@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 import com.example.demo.enums.ArticleState;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -34,6 +36,7 @@ public class Article {
 
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "Article_Tag", joinColumns = {@JoinColumn(name = "article_id")}, inverseJoinColumns = {@JoinColumn(name = "tag_id")})
+    @JsonManagedReference
     private Set<Tag> tags;
 
     @PrePersist

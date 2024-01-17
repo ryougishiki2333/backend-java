@@ -1,4 +1,6 @@
 package com.example.demo.controller;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.demo.entity.Article;
@@ -7,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.List;
@@ -17,6 +20,8 @@ import java.util.Optional;
 @RequestMapping("/api/article")
 public class ArticleController {
 
+    private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
+
     private final ArticleRepository articleRepository;
 
     public ArticleController(ArticleRepository articleRepository) {
@@ -25,7 +30,14 @@ public class ArticleController {
 
     @GetMapping("/get/all")
     public List<Article> getArticleAll() {
-        return articleRepository.findAll();
+        try {
+            return articleRepository.findAll();
+        } catch (Exception e) {
+            // Log the exception
+            logger.error("An error occurred", e);
+            // Send an error response
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred", e);
+        }
     }
 
     @GetMapping("/get/{id}")
