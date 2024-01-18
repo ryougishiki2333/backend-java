@@ -25,7 +25,7 @@ public class Tag {
     private Instant updatedAt;
 
     @ManyToMany(mappedBy = "tags")
-    @JsonBackReference
+    @JsonBackReference("article-tag")
     private Set<Article> articles;
     @PrePersist
     public void prePersist() {

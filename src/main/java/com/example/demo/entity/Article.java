@@ -36,7 +36,7 @@ public class Article {
 
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "Article_Tag", joinColumns = {@JoinColumn(name = "article_id")}, inverseJoinColumns = {@JoinColumn(name = "tag_id")})
-    @JsonManagedReference
+    @JsonManagedReference("article-tag")
     private Set<Tag> tags;
 
     @PrePersist
