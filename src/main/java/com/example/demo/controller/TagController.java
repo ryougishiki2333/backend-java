@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/api/tag")
 public class TagController {
