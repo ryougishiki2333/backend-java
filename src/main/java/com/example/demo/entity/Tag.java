@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -24,9 +25,6 @@ public class Tag {
     @Column
     private Instant updatedAt;
 
-    @ManyToMany(mappedBy = "tags")
-    @JsonBackReference("article-tag")
-    private Set<Article> articles;
     @PrePersist
     public void prePersist() {
         this.createdAt = Instant.now();
@@ -66,12 +64,5 @@ public class Tag {
         this.updatedAt = updatedAt;
     }
 
-    public Set<Article> getArticles() {
-        return articles;
-    }
-
-    public void setArticles(Set<Article> articles) {
-        this.articles = articles;
-    }
 
 }

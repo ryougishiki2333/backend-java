@@ -1,19 +1,22 @@
 package com.example.demo.controller;
+import com.example.demo.entity.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.demo.entity.Article;
 import com.example.demo.repository.ArticleRepository;
+import com.example.demo.repository.TagRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -24,8 +27,11 @@ public class ArticleController {
 
     private final ArticleRepository articleRepository;
 
-    public ArticleController(ArticleRepository articleRepository) {
+    private final TagRepository tagRepository;
+
+    public ArticleController(ArticleRepository articleRepository, TagRepository tagRepository) {
         this.articleRepository = articleRepository;
+        this.tagRepository = tagRepository;
     }
 
     @GetMapping("/get/all")
@@ -49,6 +55,23 @@ public class ArticleController {
     @PostMapping("/create")
     public ResponseEntity<String> createArticle(@RequestBody Article newArticle) {
         try {
+            Set<Tag> newTags = new HashSet<>();
+            for (Tag tag : newArticle.getTags()) {
+                // 查询数据库，检查标签是否已存在
+                Optional<Tag> existingTag = tagRepository.findByName(tag.getName());
+
+                if (existingTag.isPresent()) {
+                    // 如果标签已存在，使用现有标签
+                    newTags.add(existingTag.get());
+                } else {
+                    // 如果标签不存在，创建一个新标签并保存到数据库
+                    Tag createdTag = tagRepository.save(tag);
+                    newTags.add(createdTag);
+                }
+            }
+
+            newArticle.setTags(newTags);
+
             ObjectMapper objectMapper = new ObjectMapper();
             Article savedArticle = articleRepository.save(newArticle);
             String responseBody = objectMapper.writeValueAsString(savedArticle);
