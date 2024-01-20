@@ -69,7 +69,7 @@ public class ArticleController {
                     newTags.add(createdTag);
                 }
             }
-
+            newArticle.setArticleState(1);
             newArticle.setTags(newTags);
 
             ObjectMapper objectMapper = new ObjectMapper();
