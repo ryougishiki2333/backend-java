@@ -82,7 +82,7 @@ public class ArticleController {
         }
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<String> updateArticle(@RequestBody Article updatedArticle) {
         try {
             if (articleRepository.existsById(updatedArticle.getId())) {

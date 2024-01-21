@@ -48,11 +48,11 @@ public class Tag {
     }
 
     public Long getCreatedAt() {
-        return createdAt != null ? createdAt.toEpochMilli() : null;
+        return createdAt != null ? createdAt.toEpochMilli() / 1000 : null;
     }
 
     public Long getUpdatedAt() {
-        return updatedAt != null ? updatedAt.toEpochMilli() : null;
+        return updatedAt != null ? updatedAt.toEpochMilli() / 1000 : null;
     }
 
     public void setCreatedAt(Instant createdAt) {
