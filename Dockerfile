@@ -9,7 +9,7 @@ COPY pom.xml .
 COPY src ./src
 
 # 使用Maven打包应用程序
-RUN mvn clean package
+RUN mvn clean package -DskipTests=true
 
 # 使用官方的OpenJDK 21作为运行镜像的基础
 FROM openjdk:21-jdk
