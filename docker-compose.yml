@@ -1,12 +1,20 @@
-version: '3.1'
+version: '3'
 
 services:
-  db:
-    image: postgres:9.6.2
-    restart: always
+  postgres:
+    image: postgres
     environment:
-      POSTGRES_USER: ryougishiki
-      POSTGRES_PASSWORD: liaotingwei
-      POSTGRES_DB: vividatabase
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1
     ports:
-      - 5432:5432
+      - "5432:5432"
+    volumes:
+      - /path/to/your/postgres/data/volume:/var/lib/postgresql/data
+
+  spring-app:
+    build: .
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
