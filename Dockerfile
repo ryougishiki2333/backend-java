@@ -6,10 +6,12 @@ WORKDIR /app
 
 # 将项目的POM文件和源代码复制到容器中
 COPY pom.xml .
+RUN mvn dependency:resolve
+
 COPY src ./src
 
 # 使用Maven打包应用程序
-RUN mvn clean package
+RUN mvn package -DskipTests=true
 
 # 使用官方的OpenJDK 21作为运行镜像的基础
 FROM openjdk:21-jdk
