@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(origins = {"http://198.144.180.142", "http://viviblog.xyz/"})
 @RestController
 @RequestMapping("/api/reply")
 public class ReplyController {

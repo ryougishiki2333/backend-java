@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@CrossOrigin
+@CrossOrigin(origins = {"http://198.144.180.142", "http://viviblog.xyz/"})
 @RestController
 @RequestMapping("/api/article")
 public class ArticleController {

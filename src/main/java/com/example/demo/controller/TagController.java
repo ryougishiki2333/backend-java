@@ -11,8 +11,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin
-//@CrossOrigin
+@CrossOrigin(origins = {"http://198.144.180.142", "http://viviblog.xyz/"})
 @RestController
 @RequestMapping("/api/tag")
 public class TagController {
